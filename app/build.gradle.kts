@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = packageName
-        minSdk = 34
+        minSdk = 21  // ✅ از 34 به 21 تغییر دادم
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
