@@ -1,22 +1,20 @@
-package com.example.exampleapp;
+package com.example.myfirstapp;  // ✅ پکیج درست
 
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.myfirstapp.databinding.ActivityMainBinding;
+import android.os.Bundle;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    /*
-    This is the main activity of the app. It is responsible for setting up the view and binding the
-    controller to the view.
-     */
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        
+        // یک TextView ساده بساز
+        TextView textView = new TextView(this);
+        textView.setText("سلام! اولین برنامه من با GitHub Actions");
+        textView.setTextSize(24);
+        textView.setGravity(android.view.Gravity.CENTER);
+        
+        setContentView(textView);
     }
 }
