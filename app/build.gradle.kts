@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.myfirstapp"
-        minSdk = 26  // ✅ اینجا از 21 به 26 تغییر کرد
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -16,7 +16,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // امضای Release برای Android 11
     signingConfigs {
         create("release") {
             storeFile = file("keystore.jks")
@@ -44,6 +43,7 @@ android {
     
     buildFeatures {
         viewBinding = true
+        dataBinding = true  // ✅ این خط رو اضافه کن
     }
 }
 
