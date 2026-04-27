@@ -18,7 +18,7 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("keystore.jks")
+            storeFile = file("../keystore.jks")  // ✅ فقط این خط تغییر کرد
             storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "android"
             keyAlias = System.getenv("KEY_ALIAS") ?: "my-key-alias"
             keyPassword = System.getenv("KEY_PASSWORD") ?: "android"
@@ -43,7 +43,7 @@ android {
     
     buildFeatures {
         viewBinding = true
-        dataBinding = true  // ✅ این خط رو اضافه کن
+        dataBinding = true
     }
 }
 
