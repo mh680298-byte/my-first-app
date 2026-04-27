@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.myfirstapp"
-        minSdk = 26
+        minSdk = 26  // ✅ اینجا از 21 به 26 تغییر کرد
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -16,7 +16,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // ✅ قسمت امضای Release - درست شده برای KTS
+    // امضای Release برای Android 11
     signingConfigs {
         create("release") {
             storeFile = file("keystore.jks")
