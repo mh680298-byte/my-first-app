@@ -2,15 +2,12 @@ plugins {
     id("com.android.application")
 }
 
-var packageName = properties["package_name"] as String
-var javaVersion = JavaVersion.toVersion(properties["java_version"] as Any)
-
 android {
-    namespace = packageName
+    namespace = "com.example.myfirstapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = packageName
+        applicationId = "com.example.myfirstapp"
         minSdk = 21
         targetSdk = 34
         versionCode = 1
@@ -19,40 +16,42 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // ✅ امضای Release APK با Signature Scheme v2
+    // ✅ قسمت امضای Release - درست شده برای KTS
     signingConfigs {
-        release {
-            storeFile file("keystore.jks")
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
+        create("release") {
+            storeFile = file("keystore.jks")
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "android"
+            keyAlias = System.getenv("KEY_ALIAS") ?: "my-key-alias"
+            keyPassword = System.getenv("KEY_PASSWORD") ?: "android"
         }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     
     compileOptions {
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+    
     buildFeatures {
         viewBinding = true
     }
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:${properties["app_compat_version"]}")
-    implementation("com.google.android.material:material:${properties["material_version"]}")
-    implementation("androidx.constraintlayout:constraintlayout:${properties["constraint_layout_version"]}")
-    implementation("androidx.navigation:navigation-fragment:${properties["navigation_version"]}")
-    implementation("androidx.navigation:navigation-ui:${properties["navigation_version"]}")
-    testImplementation("junit:junit:${properties["junit_version"]}")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.10.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
