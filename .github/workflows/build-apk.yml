@@ -1,9 +1,9 @@
-name: ساخت خودکار APK
+name: ساخت APK امضا شده برای Android 11
 
 on:
   push:
     branches: [ "main", "master" ]
-  workflow_dispatch:    # این یعنی می‌تونی دستی هم اجراش کنی
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,16 +19,29 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: نصب Android SDK
-      uses: android-actions/setup-android@v3
+    - name: ساخت Keystore (امضای دیجیتال)
+      run: |
+        keytool -genkey -v \
+          -keystore keystore.jks \
+          -alias my-key-alias \
+          -keyalg RSA \
+          -keysize 2048 \
+          -validity 10000 \
+          -storepass android \
+          -keypass android \
+          -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, ST=Unknown, C=Unknown"
 
-    - name: ساخت APK
+    - name: ساخت Release APK با Signature Scheme v2
       run: |
         chmod +x gradlew
-        ./gradlew assembleDebug
+        ./gradlew assembleRelease
+      env:
+        KEYSTORE_PASSWORD: android
+        KEY_ALIAS: my-key-alias
+        KEY_PASSWORD: android
 
-    - name: آپلود APK
+    - name: آپلود APK امضا شده
       uses: actions/upload-artifact@v4
       with:
-        name: my-first-app-debug
-        path: app/build/outputs/apk/debug/*.apk
+        name: app-release-signed
+        path: app/build/outputs/apk/release/*.apk
